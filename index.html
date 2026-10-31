@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Portail</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f5d50'/%3E%3Cpath d='M8 9h7v7H8zM17 9h7v7h-7zM8 18h7v7H8zM17 18h7v7h-7z' fill='%23fff'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #f5f3ee; --card: #fff; --text: #1d1f1c; --muted: #646a62;
+    --line: #e2dfd6; --accent: #2f5d50; --tag: #eef2ec; --off: #9a9d96;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141614; --card: #1d201d; --text: #ecefe9; --muted: #a2a99f;
+      --line: #2e332e; --accent: #8fc7b2; --tag: #263029; --off: #6e736c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 1.8rem; margin: 0 0 4px; }
+  h2 { font-size: 1.05rem; margin: 36px 0 12px; color: var(--muted); font-weight: 600; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  input {
+    width: 100%; padding: 12px 14px; font: inherit; color: var(--text);
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+  }
+  input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .card {
+    display: flex; flex-direction: column; gap: 6px; padding: 16px;
+    background: var(--card); border: 1px solid var(--line); border-radius: 12px;
+    color: inherit; text-decoration: none; transition: border-color .15s, transform .15s;
+  }
+  a.card:hover, a.card:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
+  .card h3 { margin: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+  .logo {
+    width: 32px; height: 32px; flex: none; border-radius: 8px; object-fit: contain;
+    display: inline-grid; place-items: center; font-size: 20px; background: var(--tag);
+  }
+  img.logo { background: none; }
+  .card p { margin: 0; color: var(--muted); font-size: .94rem; flex: 1; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: .78rem; }
+  .meta span { background: var(--tag); padding: 2px 8px; border-radius: 999px; }
+  .url { font-size: .82rem; color: var(--accent); overflow-wrap: anywhere; }
+  .off .url { color: var(--off); }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Portail</h1>
+  <p class="sub">Tous mes sites en ligne, au même endroit.</p>
+  <input id="q" type="search" placeholder="Filtrer…" aria-label="Filtrer les sites">
+
+  <h2>Mes plans perso</h2>
+  <div class="grid" id="perso"></div>
+
+  <h2>Sites</h2>
+  <div class="grid" id="live"></div>
+</main>
+<script src="logos.js"></script>
+<script>
+// Liens vérifiés (réponse 200) le 2026-10-29. Projet = dossier dans Documents\IA.
+// logo : celui du site (logos.js) ; emoji : pour les sites qui n'ont pas de logo.
+const PERSO = [
+  { nom: "Mon protocole", projet: "Vita", type: "HTML statique (chiffré)", hebergeur: "GitHub Pages", emoji: "📋",
+    url: "https://snoog43.github.io/vita/protocole/", desc: "Plans perso de Duncan et Alicia : analyse, journée type, aliments, réintroduction." },
+];
+const SITES = [
+  { nom: "Logy", projet: "Numerologie", type: "HTML statique", hebergeur: "GitHub Pages", logo: LOGOS.logy,
+    url: "https://snoog43.github.io/logy/", desc: "Calendrier numérologique GG33, chemin de vie, astrologie chinoise, zodiaque." },
+  { nom: "Vita", projet: "Vita", type: "HTML statique (chiffré)", hebergeur: "GitHub Pages", logo: LOGOS.vita,
+    url: "https://snoog43.github.io/vita/", desc: "Santé : aliments, compléments, carences, jeûne, recettes." },
+  { nom: "Mon Yoga", projet: "Yoga", type: "HTML statique (aussi APK Android)", hebergeur: "GitHub Pages",
+    logo: "https://snoog43.github.io/mon-yoga/icon.svg",
+    url: "https://snoog43.github.io/mon-yoga/", desc: "Postures, respiration et méditation guidées." },
+  { nom: "Cap emploi", projet: "CV-Alicia", type: "HTML statique (chiffré)", hebergeur: "GitHub Pages", emoji: "💼",
+    url: "https://snoog43.github.io/alicia-emploi/", desc: "Aide à la recherche d'emploi d'Alicia : recherche, entretien, formations." },
+  { nom: "Où vivre ?", projet: "Ou-Vivre", type: "HTML statique (données mises à jour chaque semaine)", hebergeur: "GitHub Pages", emoji: "🌍",
+    url: "https://snoog43.github.io/ou-vivre-web/", desc: "Classement de régions du monde où s'installer selon climat, santé, stabilité, budget… (pour Maman)." },
+  { nom: "Plan retraite", projet: "plan-retraite-site", type: "HTML statique", hebergeur: "GitHub Pages", emoji: "🏦",
+    url: "https://snoog43.github.io/plan-retraite/", desc: "Plan d'épargne retraite et démarches MDPH (version anonymisée)." },
+  { nom: "Vols Turquie", projet: "Vols-Turquie", type: "HTML statique", hebergeur: "GitHub Pages", emoji: "✈️",
+    url: "https://snoog43.github.io/vols-turquie/", desc: "Recherche des vols les moins chers vers Istanbul." },
+  { nom: "Clinique Istanbul", projet: "Vols-Turquie", type: "HTML statique", hebergeur: "GitHub Pages", emoji: "🩺",
+    url: "https://snoog43.github.io/clinique-test/", desc: "Bilan de santé complet à Istanbul : cliniques, marqueurs, budget." },
+  { nom: "DofusCraft", projet: "DofusCraft", type: "HTML statique", hebergeur: "GitHub Pages", emoji: "⚒️",
+    url: "https://snoog43.github.io/dofus-craft/", desc: "Dofus : craft ou achat HDV, brisage, familiers." },
+  { nom: "Pâte à pizza", projet: "Pizza", type: "HTML statique", hebergeur: "GitHub Pages", emoji: "🍕",
+    url: "https://snoog43.github.io/pate-a-pizza/", desc: "Calculateur de pâte à pizza : hydratation, levure, planning." },
+  { nom: "Mon Coin", projet: "MonCoin", type: "HTML statique", hebergeur: "GitHub Pages", logo: LOGOS.moncoin,
+    url: "https://snoog43.github.io/mon-coin/", desc: "Balades et bonnes adresses autour de chez moi." },
+  { nom: "Mon Cycle", projet: "Cycle", type: "HTML statique", hebergeur: "GitHub Pages", logo: LOGOS.cycle,
+    url: "https://snoog43.github.io/mon-cycle/", desc: "Suivi des règles, 100 % local dans le navigateur." },
+  { nom: "Potager", projet: "Potager", type: "Next.js", hebergeur: "Vercel", logo: LOGOS.potager,
+    url: "https://potager-iota.vercel.app/", desc: "Gestion du potager : plan, plantes, calendrier, météo, arrosage, rotation." },
+];
+
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function card(s) {
+  const tags = [s.type, s.hebergeur, "dossier " + s.projet].map(t => `<span>${esc(t)}</span>`).join("");
+  const icon = s.logo ? `<img class="logo" src="${esc(s.logo)}" alt="">` : `<span class="logo">${s.emoji}</span>`;
+  const body = `<h3>${icon}${esc(s.nom)}</h3><p>${esc(s.desc)}</p><div class="meta">${tags}</div>`;
+  const text = (s.nom + " " + s.projet + " " + s.type + " " + s.desc).toLowerCase();
+  return s.url
+    ? `<a class="card" href="${esc(s.url)}" target="_blank" rel="noopener" data-q="${esc(text)}">${body}<span class="url">${esc(s.url.replace(/^https:\/\//, ""))}</span></a>`
+    : `<div class="card off" data-q="${esc(text)}">${body}<span class="url">non déployé</span></div>`;
+}
+
+document.getElementById("perso").innerHTML = PERSO.map(card).join("");
+document.getElementById("live").innerHTML = SITES.map(card).join("");
+
+document.getElementById("q").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll(".card").forEach(c => c.classList.toggle("hidden", q && !c.dataset.q.includes(q)));
+});
+</script>
+</body>
+</html>
